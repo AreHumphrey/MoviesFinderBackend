@@ -23,6 +23,7 @@ def login():
     data = request.get_json()
     user = User.query.filter_by(email=data["email"]).first()
     if user and check_password_hash(user.password, data["password"]):
-        token = create_access_token(identity=user.id)
+        token = create_access_token(identity=str(user.id))
+
         return jsonify({"token": token})
     return jsonify({"msg": "Неверный логин или пароль"}), 401
